@@ -8,5 +8,6 @@ namespace Restaurant
 {
     internal interface IKitchen
     {
+        void ShowMenu(); // выводит меню кухни (добавление, готовка и просмотр заказов)
     }
 }

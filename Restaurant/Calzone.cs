@@ -12,6 +12,11 @@ namespace Restaurant
 
         public Calzone(string name, short weight) : base(name, weight) => slices = 1;
 
+        public override void Deconstruct(out string name, out FoodWeight weight)
+        {
+            base.Deconstruct(out name, out weight);
+        }
+
         // выпекать кальцоне
         new public void Bake()
         {

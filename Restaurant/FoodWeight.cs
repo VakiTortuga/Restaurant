@@ -6,14 +6,14 @@ using System.Threading.Tasks;
 
 namespace Restaurant
 {
-    // реализовать проверку корректности значений
-    // и насколько логично иметь конструктор без параметров
-    internal struct Weight
+    internal struct FoodWeight
     {
-        private readonly short weight; // вес в граммах
+        private short weight; // вес в граммах
+
+        public short Weight { get => weight; }
 
         // конструктор с значением веса
-        public Weight(short weight) => this.weight = weight;
+        public FoodWeight(short weight) => this.weight = weight;
 
         // получение строкового представления веса в предопределенном формате
         public override string ToString()

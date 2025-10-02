@@ -27,6 +27,17 @@ namespace Restaurant
             this.size = size;
         }
 
+        public override void Deconstruct(out string name, out FoodWeight weight)
+        {
+            base.Deconstruct(out name, out weight);
+        }
+
+        public void Deconstruct(out string name, out PizzaSize size)
+        {
+            base.Deconstruct(out name, out _);
+            size = this.size;
+        }
+
         // напомнить про ананасы
         public static void RemindPineapples() => Console.WriteLine("Не забудь добавить ананасы!");
 

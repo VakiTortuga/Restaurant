@@ -10,7 +10,7 @@ namespace Restaurant
     {
         // поля класса Food
         protected string name; // название блюда
-        protected Weight weight; // вес блюда
+        protected FoodWeight weight; // вес блюда
         protected bool foodIsCut; // флаг нарезанности блюда
         protected bool foodIsBaked; // флаг готовности блюда
         protected bool foodIsEaten; // флаг съеденности блюда
@@ -30,14 +30,14 @@ namespace Restaurant
         protected Food(string name, short weight)
         {
             this.name = name;
-            this.weight = new Weight(weight);
+            this.weight = new FoodWeight(weight);
             this.foodIsCut = false;
             this.foodIsBaked = false;
             this.foodIsEaten = false;
         }
 
         // деконструктор для свойств
-        public void Deconstruct(out string name, out Weight weight)
+        public virtual void Deconstruct(out string name, out FoodWeight weight)
         {
             name = this.name;
             weight = this.weight;

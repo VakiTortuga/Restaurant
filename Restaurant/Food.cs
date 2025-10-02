@@ -27,9 +27,11 @@ namespace Restaurant
         //{ }
         //protected Food(short weight) : this(EMPTY_NAME, weight)
         //{ }
-        protected Food(string name, short weight)
+        protected Food(string? name, short weight)
         {
-            this.name = name;
+            if (name != null) this.name = name;
+            else this.name = EMPTY_NAME;
+
             this.weight = new FoodWeight(weight);
             this.foodIsCut = false;
             this.foodIsBaked = false;

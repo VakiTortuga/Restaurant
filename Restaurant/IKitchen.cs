@@ -8,9 +8,7 @@ namespace Restaurant
 {
     internal interface IKitchen
     {
-        void KitchenManager(); // урпавляет интерфейсом и всеми взаимодействиями
+        void ShowMainKitchenMenu(); // выводит меню кухни (добавление и просмотр заказов)
 
-        //void ShowKitchenMenu(); // выводит меню кухни (добавление и просмотр заказов)
-        //void ShowFoodMenu(); // выводит меню еды для заказа
     }
 }

@@ -21,7 +21,7 @@ namespace Restaurant
         private PizzaSize size; // размер пиццы (предопределяет ее вес)
 
         // конструктор
-        public Pizza(string name, PizzaSize size) : base(name, (short)size)
+        public Pizza(string? name, PizzaSize size) : base(name, (short)size)
         {
             this.slices = 1;
             this.size = size;

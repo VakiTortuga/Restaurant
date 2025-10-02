@@ -10,7 +10,7 @@ namespace Restaurant
     {
         private byte slices; // количество кусочков кальцоне
 
-        public Calzone(string name, short weight) : base(name, weight) => slices = 1;
+        public Calzone(string? name, short weight) : base(name, weight) => slices = 1;
 
         public override void Deconstruct(out string name, out FoodWeight weight)
         {

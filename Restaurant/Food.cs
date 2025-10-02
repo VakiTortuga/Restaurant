@@ -63,5 +63,10 @@ namespace Restaurant
             this.foodIsEaten = true;
             Console.Write($"Блюдо \"{name}\" съедено! ");
         }
+
+        //public virtual void PrintFood()
+        //{
+
+        //}
     }
 }

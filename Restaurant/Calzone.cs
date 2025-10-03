@@ -51,5 +51,22 @@ namespace Restaurant
             }
             base.Eat();
         }
+
+        public override void PrintFoodShort()
+        {
+            base.PrintFoodShort();
+        }
+
+        public override void PrintFoodStatus()
+        {
+            Console.WriteLine("Кальцоне.");
+            base.PrintFoodStatus();
+        }
+
+        public override void PrintFoodFull()
+        {
+            this.PrintFoodShort();
+            this.PrintFoodStatus();
+        }
     }
 }

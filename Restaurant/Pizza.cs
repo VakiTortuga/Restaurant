@@ -42,7 +42,7 @@ namespace Restaurant
         public static void RemindPineapples() => Console.WriteLine("Не забудь добавить ананасы!");
 
         // выпекать пиццу
-        new public void Bake()
+        public override void Bake()
         {
             if (base.foodIsBaked == true)
             {
@@ -53,7 +53,7 @@ namespace Restaurant
         }
 
         // порезать пиццу на кусочки
-        public void Cut(byte slices = 1)
+        public override void Cut(byte slices)
         {
             if (base.foodIsCut == true)
             {
@@ -61,12 +61,12 @@ namespace Restaurant
                 return;
             }
             this.slices = slices;
-            base.Cut();
+            base.Cut(slices);
             Console.WriteLine($"Кол-во кусочков - {slices}.");
         }
         
         // сесть пиццу
-        new public void Eat()
+        public override void Eat()
         {
             if (base.foodIsEaten == true)
             {
@@ -74,6 +74,25 @@ namespace Restaurant
                 return;
             }
             base.Eat();
+        }
+
+        public override void PrintFoodShort()
+        {
+            base.PrintFoodShort();
+        }
+
+        public override void PrintFoodStatus()
+        {
+            Console.WriteLine("Пицца.");
+            base.PrintFoodStatus();
+            Console.WriteLine($"Размер - {this.size}.");
+            Console.WriteLine($"Кол - во кусочков - {this.slices}.");
+        }
+
+        public override void PrintFoodFull()
+        {
+            this.PrintFoodShort();
+            this.PrintFoodStatus();
         }
     }
 }

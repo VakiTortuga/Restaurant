@@ -46,29 +46,42 @@ namespace Restaurant
         }
 
         // запечь блюдо
-        protected void Bake()
+        public virtual void Bake()
         {
             this.foodIsBaked = true;
             Console.Write($"Блюдо \"{name}\" запечено! ");
         }
 
         // нарезать блюдо
-        protected void Cut()
+        public virtual void Cut(byte slices = 2)
         {
             this.foodIsCut = true;
             Console.Write($"Блюдо \"{name}\" нарезано! ");
         }
 
         // съесть блюдо
-        protected void Eat()
+        public virtual void Eat()
         {
             this.foodIsEaten = true;
             Console.Write($"Блюдо \"{name}\" съедено! ");
         }
 
-        //public virtual void PrintFood()
-        //{
+        public virtual void PrintFoodShort()
+        {
+            Console.WriteLine($"{this.name}. Вес: {this.weight}.");
+        }
 
-        //}
+        public virtual void PrintFoodStatus()
+        {
+            Console.WriteLine("Блюдо {0}запечено.", (this.foodIsBaked ? "" : "не "));
+            Console.WriteLine("Блюдо {0}нарезано.", (this.foodIsCut ? "" : "не "));
+            Console.WriteLine("Блюдо {0}съедено.", (this.foodIsEaten ? "" : "не "));
+        }
+
+        public virtual void PrintFoodFull()
+        {
+            this.PrintFoodShort();
+            this.PrintFoodStatus();
+        }
     }
 }

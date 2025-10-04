@@ -10,7 +10,15 @@ namespace Restaurant
     {
         private short weight; // вес в граммах
 
-        public short Weight { get => weight; }
+        public short Weight
+        {
+            get => weight;
+            set
+            {
+                if (weight <= 0 || weight >= 3000) weight = 0;
+                else weight = value;
+            }
+        }
 
         // конструктор с значением веса
         public FoodWeight(short weight) => this.weight = weight;
@@ -18,7 +26,7 @@ namespace Restaurant
         // получение строкового представления веса в предопределенном формате
         public override string ToString()
         {
-            if (this.weight <= 0) return "вес не указан";
+            if (this.weight <= 0) return "не указан";
             return $"{weight} грамм";
         }
     }

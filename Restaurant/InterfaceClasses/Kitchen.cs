@@ -1,15 +1,22 @@
-﻿using System;
+﻿using Restaurant.FoodClasses;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Restaurant
+namespace Restaurant.InterfaceClasses
 {
     internal class Kitchen : IKitchen
     {
         private List<Food> menu = new List<Food>();
         private List<Food> orders = new List<Food>();
+
+        public static void WaitForUser()
+        {
+            Console.Write("...");
+            Console.ReadKey();
+        }
 
         public void InitFoodMenu()
         {
@@ -23,7 +30,7 @@ namespace Restaurant
         // выводит меню кухни (добавление и просмотр заказов)
         public void ShowMainKitchenMenu() 
         {
-            this.InitFoodMenu(); // или вынести это в конструктор
+            InitFoodMenu(); // или вынести это в конструктор
 
             while (true)
             {
@@ -39,10 +46,10 @@ namespace Restaurant
                 switch (choice)
                 {
                     case "1":
-                        this.ShowFoodMenu();
+                        ShowFoodMenu();
                         break;
                     case "2":
-                        this.ShowOrdersMenu();
+                        ShowOrdersMenu();
                         break;
                     case "3":
                         return;
@@ -68,7 +75,7 @@ namespace Restaurant
             menuChoice = CheckChoiseMenu(choiceStr, amountOfChoices);
 
             if (menuChoice <= menu.Count) MakeOrderByIndex(menuChoice - 1); // если выбор не вышел за пределы списка меню
-            else if (menuChoice == (amountOfChoices - 1))
+            else if (menuChoice == amountOfChoices - 1)
             {
                 try
                 {
@@ -96,12 +103,12 @@ namespace Restaurant
             Console.WriteLine("Создание заказа.\nМеню блюд:");
             for (; i <= menu.Count; i++)
             {
-                Console.Write((i) + ".");
-                this.menu[i - 1].PrintFoodShort(); // выводим элементы меню
+                Console.Write(i + ".");
+                menu[i - 1].PrintFoodShort(); // выводим элементы меню
             }
 
             Console.WriteLine($"\n{i}.Добавить блюдо в меню"); // выводим вариант для создания и заказа новой опции меню
-            Console.WriteLine((++i) + ".Вернуться в главное меню"); // выход в главное меню кухни
+            Console.WriteLine(++i + ".Вернуться в главное меню"); // выход в главное меню кухни
             return i;
         }
 
@@ -109,7 +116,7 @@ namespace Restaurant
         // добавляет блюдо в список заказов из списка меню по индексу
         private void MakeOrderByIndex(int index)
         {
-            Food foodItem = this.menu[index];
+            Food foodItem = menu[index];
 
             switch (foodItem)
             {
@@ -119,7 +126,7 @@ namespace Restaurant
                     break;
                 case Calzone calzone:
                     var (calzoneName, calzoneWeight) = calzone;
-                    orders.Add(new Calzone(calzoneName, calzoneWeight.Weight));
+                    orders.Add(new Calzone(calzoneName, calzoneWeight));
                     break;
                 default:
                     break;
@@ -224,10 +231,10 @@ namespace Restaurant
             Console.WriteLine("Меню взаимодействия с заказами:");
             for (; i < orders.Count; i++)
             {
-                Console.Write((i + 1) + ".");
-                this.orders[i].PrintFoodShort(); // выводим элементы списка заказов
+                Console.Write(i + 1 + ".");
+                orders[i].PrintFoodShort(); // выводим элементы списка заказов
             }
-            Console.WriteLine((++i) + ".Выйти в основное меню.");
+            Console.WriteLine(++i + ".Выйти в основное меню.");
 
             Console.Write("Ваш выбор (цифра 1-{0}): ", i);
             string? choiceStr = Console.ReadLine(); // получаем строку с выбором

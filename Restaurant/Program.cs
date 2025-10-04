@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Restaurant.InterfaceClasses;
+using System;
 
 namespace Restaurant {
     class Program

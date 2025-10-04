@@ -27,7 +27,7 @@ namespace Restaurant.InterfaceClasses
         }
 
         // вывод меню блюд, с возможностью сделать заказ, добавить блюдо и вернуться в главное меню
-        public void ShowFoodMenu(in Kitchen kitchen)
+        public void ShowFoodMenu(in OrdersMenu ordersMenu)
         {
             // переменные для вывода блюд меню
             int menuChoice, amountOfChoices;
@@ -39,7 +39,7 @@ namespace Restaurant.InterfaceClasses
 
             menuChoice = Kitchen.CheckChoiseMenu(choiceStr, amountOfChoices);
 
-            if (menuChoice <= menu.Count) kitchen.MakeOrderByItem(menu[menuChoice - 1]); // если выбор не вышел за пределы списка меню
+            if (menuChoice <= menu.Count) ordersMenu.MakeOrderByItem(menu[menuChoice - 1]); // если выбор не вышел за пределы списка меню
             else if (menuChoice == amountOfChoices - 1)
             {
                 try

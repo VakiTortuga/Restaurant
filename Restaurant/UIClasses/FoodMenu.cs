@@ -29,42 +29,49 @@ namespace Restaurant.InterfaceClasses
         // вывод меню блюд, с возможностью сделать заказ, добавить блюдо и вернуться в главное меню
         public void ShowFoodMenu(in OrdersMenu ordersMenu)
         {
-            // переменные для вывода блюд меню
-            int menuChoice, amountOfChoices;
-
-            amountOfChoices = ShowOptionsFromFoodMenu(); // выводит доступный хавчик, записывает кол-вариантов в переменную
-
-            Console.Write("Ваш выбор (цифра 1-{0}): ", amountOfChoices);
-            string? choiceStr = Console.ReadLine(); // получаем строку с выбором
-
-            menuChoice = Kitchen.CheckChoiseMenu(choiceStr, amountOfChoices);
-
-            if (menuChoice <= menu.Count) ordersMenu.MakeOrderByItem(menu[menuChoice - 1]); // если выбор не вышел за пределы списка меню
-            else if (menuChoice == amountOfChoices - 1)
+            while (true)
             {
-                try
+                int menuChoice, amountOfChoices;
+
+                Console.Clear();
+                amountOfChoices = ShowOptionsFromFoodMenu(); // выводит доступный хавчик, записывает кол-вариантов в переменную
+                Console.Write("Ваш выбор (цифра 1-{0}): ", amountOfChoices);
+
+                string? choiceStr = Console.ReadLine(); // получаем строку с выбором
+                menuChoice = Kitchen.CheckChoiseMenu(choiceStr, amountOfChoices); // получаем целочисленный выбор
+
+
+                if (menuChoice <= menu.Count) ordersMenu.MakeOrderByItem(menu[menuChoice - 1]); // если выбор не вышел за пределы списка меню
+                else if (menuChoice == amountOfChoices - 1) // создание опции
                 {
-                    CreateOptionForOrder(); // создание опции
-                    return;
+                    try
+                    {
+                        CreateOptionForOrder(); // создание опции (не заказывая)
+                        continue; // показываем обновленное меню
+                    }
+                    catch (ArgumentException)
+                    {
+                        Console.Write("Некорректный формат ввода!\nСоздание опции меню отменено.");
+                    }
+                    catch (Exception e)
+                    {
+                        Console.Write("Необрабатываемое исключение.\nСоздание опции меню отменено.");
+                    }
+                    Kitchen.WaitForUser();
                 }
-                catch (ArgumentException e)
+                else if (menuChoice == amountOfChoices) return;
+                else
                 {
-                    Console.WriteLine(e.Message + "Создание опции меню отменено.");
+                    Console.Write("Некорректный выбор.");
+                    Kitchen.WaitForUser();
                 }
-                catch (Exception e)
-                {
-                    Console.Write("Необрабатываемое исключение. ");
-                    Console.WriteLine(e.Message);
-                }
-                Console.Write("...");
-                Console.ReadKey();
             }
         }
 
+        // вывод хавчика и прочих опций меню
         private int ShowOptionsFromFoodMenu()
         {
             int i = 1;
-            Console.Clear();
             Console.WriteLine("Создание заказа.\nМеню блюд:");
             for (; i <= menu.Count; i++)
             {
@@ -85,13 +92,13 @@ namespace Restaurant.InterfaceClasses
             Console.WriteLine("1.Пицца");
             Console.WriteLine("2.Кальцоне");
             Console.WriteLine("3.Отмена создания блюда");
-            Console.Write("Ваш выбор: ");
+            Console.Write("Ваш выбор (1-3): ");
 
             string? choice = Console.ReadLine();
             if (choice == "3")
             {
-                Console.WriteLine("Создание блюда было отменено...");
-                Console.ReadKey();
+                Console.WriteLine("Создание блюда было отменено.");
+                Kitchen.WaitForUser();
                 return;
             }
 
@@ -103,11 +110,11 @@ namespace Restaurant.InterfaceClasses
             };
 
             menu.Add(newFood);
-            Console.WriteLine("Блюдо успешно добавлено в меню!..");
-            Console.ReadKey();
+            Console.Write("Блюдо успешно добавлено в меню!");
+            Kitchen.WaitForUser();
         }
 
-        // Заказ пиццы
+        // Создание пиццы
         private Pizza CreatePizza()
         {
             Console.Write("Введите название пиццы: ");
@@ -118,7 +125,7 @@ namespace Restaurant.InterfaceClasses
             return new Pizza(name, size);
         }
 
-        // Заказ кальцоне
+        // Создание кальцоне
         private Calzone CreateCalzone()
         {
             Console.Write("Введите название кальцоне: ");

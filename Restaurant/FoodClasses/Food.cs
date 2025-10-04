@@ -57,6 +57,7 @@ namespace Restaurant.FoodClasses
                 foodIsBaked = true;
                 Console.Write($"\"{name}\" запечено! ");
             }
+            Kitchen.WaitForUser();
         }
 
         // нарезать блюдо
@@ -74,6 +75,7 @@ namespace Restaurant.FoodClasses
             }
             else
                 Console.WriteLine($"\"{name}\" можно нарезать на {this.slices + 1}-{MAX_AMOUNT_OF_SLICES} кусочков.");
+            Kitchen.WaitForUser();
         }
 
         // съесть блюдо
@@ -86,6 +88,7 @@ namespace Restaurant.FoodClasses
                 foodIsEaten = true;
                 Console.Write($"\"{name}\" съедено! ");
             }
+            Kitchen.WaitForUser();
         }
 
         public virtual void PrintFoodShort()

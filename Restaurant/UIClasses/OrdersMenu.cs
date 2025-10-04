@@ -27,53 +27,100 @@ namespace Restaurant.InterfaceClasses
                 default:
                     break;
             }
+            Console.Write("Блюдо заказано!");
+            Kitchen.WaitForUser();
         }
 
         // вывод меню взаимодействия с заказами
         public void ShowOrdersMenu()
         {
-            int i = 0, menuChoice;
+            while (true)
+            {
+                int menuChoice, amountOfChoices;
 
-            Console.Clear();
+                Console.Clear();
+                amountOfChoices = ShowOptionsFromOrdersMenu(); // выводим заказы на выбор
+
+                if (amountOfChoices <= 1)
+                {
+                    Console.Write("Продолжить.");
+                    Kitchen.WaitForUser();
+                    return;
+                }
+                else
+                {
+                    Console.Write("Ваш выбор (цифра 1-{0}): ", amountOfChoices);
+
+                    string? choiceStr = Console.ReadLine(); // получаем строку с выбором
+                    menuChoice = Kitchen.CheckChoiseMenu(choiceStr, amountOfChoices);
+                }
+                    
+
+                if (menuChoice <= orders.Count) ShowOrderMenuByIndex(menuChoice - 1); // если выбор не вышел за пределы списка меню
+                else if (menuChoice == amountOfChoices) return;
+                else
+                {
+                    Console.Write("Некорректный выбор.");
+                    Kitchen.WaitForUser();
+                }
+            }
+        }
+
+        // вывод заказов и прочих опций меню
+        private int ShowOptionsFromOrdersMenu()
+        {
+            int i = 0;
+
+            if (orders.Count == 0)
+            {
+                Console.WriteLine("Заказов нет.");
+                return i;
+            }
+
             Console.WriteLine("Меню взаимодействия с заказами:");
             for (; i < orders.Count; i++)
             {
                 Console.Write(i + 1 + ".");
-                orders[i].PrintFoodShort(); // выводим элементы списка заказов
+                orders[i].PrintFoodShort(); // выводим элементы меню
             }
             Console.WriteLine(++i + ".Выйти в основное меню.");
 
-            Console.Write("Ваш выбор (цифра 1-{0}): ", i);
-            string? choiceStr = Console.ReadLine(); // получаем строку с выбором
-
-            menuChoice = Kitchen.CheckChoiseMenu(choiceStr, i);
-
-            // if (menuChoice <= menu.Count) MakeOrderByIndex(menuChoice - 1); // если выбор не вышел за пределы списка меню
-            if (menuChoice <= orders.Count) ShowOrderMenuByIndex(menuChoice - 1); // если выбор не вышел за пределы списка меню
+            return i;
         }
-
 
 
         // Вывод информации и действия с заказом
         private void ShowOrderMenuByIndex(int index)
         {
-            int menuChoice, i = 3;
+            while (true)
+            {
+                int menuChoice, amountOfChoices = 3;
 
-            Console.Clear();
-            orders[index].PrintFoodShort();
-            Console.WriteLine("Меню заказа:");
-            Console.WriteLine("1.Вывести подробную информацию");
-            Console.WriteLine("2.Взаимодействовать с заказом");
-            Console.WriteLine("3.Выйти в главное меню");
+                Console.Clear();
+                orders[index].PrintFoodShort(); // краткая инфа про заказ
+                Console.WriteLine("Меню заказа:"); // меню взаимодействий с заказом
+                Console.WriteLine("1.Вывести подробную информацию");
+                Console.WriteLine("2.Взаимодействовать с заказом");
+                Console.WriteLine("3.Выйти в главное меню");
+                Console.Write("Ваш выбор (1-{0}): ", amountOfChoices);
 
-            Console.Write("Ваш выбор (цифра 1-{0}): ", i);
-            string? choiceStr = Console.ReadLine(); // получаем строку с выбором
+                string? choiceStr = Console.ReadLine(); // получаем строку с выбором
+                menuChoice = Kitchen.CheckChoiseMenu(choiceStr, amountOfChoices);
 
-            menuChoice = Kitchen.CheckChoiseMenu(choiceStr, i);
-
-            if (menuChoice == 1) ShowFullOrderInfo(index);
-            else if (menuChoice == 2) ShowInteractionMenuByIndex(index);
-            else if (menuChoice == 3) return;
+                if (menuChoice == 1) ShowFullOrderInfo(index);
+                else if (menuChoice == 2)
+                {
+                    bool isEaten = false;
+                    ShowInteractionMenuByIndex(index, ref isEaten);
+                    if (isEaten) return;
+                }
+                else if (menuChoice == 3) return;
+                else
+                {
+                    Console.Write("Некорректный выбор.");
+                    Kitchen.WaitForUser();
+                }
+            }
         }
 
         // вывести информацию о заказе
@@ -82,44 +129,78 @@ namespace Restaurant.InterfaceClasses
             Console.Clear();
             Console.WriteLine("Полная информация о заказе:");
             orders[index].PrintFoodFull();
-            Console.WriteLine("Далее...");
-            Console.ReadKey();
+            Kitchen.WaitForUser();
         }
 
-
-
-        // вывести меню взаимодействия с заказами
-        private void ShowInteractionMenuByIndex(int index)
+        // вывести меню взаимодействия с заказом
+        private void ShowInteractionMenuByIndex(int index, ref bool isEaten)
         {
-            int menuChoice, i = 4;
+            int menuChoice, amountOfChoices = 4;
             Food order = orders[index];
+            string? choiceStr;
 
-            Console.Clear();
-            order.PrintFoodShort();
-            Console.WriteLine("Варианты взаимодействия:");
-            Console.WriteLine("1.Запечь");
-            Console.WriteLine("2.Нарезать");
-            Console.WriteLine("3.Съесть");
-            Console.WriteLine("4.Выйти из меню");
-
-            Console.Write("Ваш выбор (цифра 1-{0}): ", i);
-            string? choiceStr = Console.ReadLine(); // получаем строку с выбором
-
-            menuChoice = Kitchen.CheckChoiseMenu(choiceStr, i);
-
-            if (menuChoice == 1) order.Bake();
-            else if (menuChoice == 2) order.Cut();
-            else if (menuChoice == 3)
+            while (true)
             {
-                order.Eat();
+                Console.Clear();
+                order.PrintFoodShort();
+                Console.WriteLine("Варианты взаимодействия:");
+                Console.WriteLine("1.Запечь");
+                Console.WriteLine("2.Нарезать");
+                Console.WriteLine("3.Съесть");
+                Console.WriteLine("4.Выйти из меню");
+                Console.Write("Ваш выбор (цифра 1-{0}): ", amountOfChoices);
 
-                if (order.FoodIsEaten) orders.RemoveAt(index);
+                choiceStr = Console.ReadLine(); // получаем строку с выбором
+                menuChoice = Kitchen.CheckChoiseMenu(choiceStr, amountOfChoices);
 
-                Kitchen.WaitForUser();
+                if (menuChoice == 1) order.Bake();
+                else if (menuChoice == 2)
+                {
+                    byte slices;
+                    Console.Write("Введите кол-во кусочков: ");
+
+                    while (true)
+                    {
+                        try
+                        {
+                            slices = Convert.ToByte(Console.ReadLine());
+                            break;
+                        }
+                        catch (OverflowException)
+                        {
+                            slices = byte.MaxValue;
+                            break;
+                        }
+                        catch (FormatException)
+                        {
+                            Console.Write("Неверный формат, попробуйте еще раз: ");
+                        }
+                        catch (Exception e)
+                        {
+                            Console.WriteLine("Необрабатываемое исключение.\n" + e.Message);
+                        }
+                    }
+
+                    order.Cut(slices);
+                }
+                else if (menuChoice == 3)
+                {
+                    order.Eat(); // пытаемся съесть
+
+                    if (order.FoodIsEaten) // если получилось съесть
+                    {
+                        orders.RemoveAt(index); // удаляем заказ
+                        isEaten = true; // возвращаем признак вызывающей функции
+                        return;
+                    }
+                }
+                else if (menuChoice == 4) return;
+                else
+                {
+                    Console.Write("Некорректный выбор.");
+                    Kitchen.WaitForUser();
+                }  
             }
-
-
-            else if (menuChoice == 4) return;
         }
     }
 }

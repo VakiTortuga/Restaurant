@@ -27,27 +27,25 @@ namespace Restaurant.InterfaceClasses
         public static int CheckChoiseMenu(string? choiceStr, int amountOfChoices)
         {
             int menuChoice;
+
             if (choiceStr == null) return amountOfChoices; // Если строка с выбором пуста, выбрать выход из меню
 
             try
             {
                 menuChoice = int.Parse(choiceStr); // записываем выбор в целочисленную переменную
-                if (menuChoice > 0 && menuChoice <= amountOfChoices)
-                    return menuChoice;
-                else
-                    Console.WriteLine("Некорректный выбор.");
+                if (menuChoice > 0 && menuChoice <= amountOfChoices) return menuChoice;
+                else Console.Write("Не соблюден интервал!");
             }
-            catch (FormatException e)
+            catch (FormatException)
             {
-                Console.WriteLine("Некорректный выбор. " + e.Message);
+                Console.Write("Некорректный формат ввода!");
             }
             catch (Exception e)
             {
-                Console.WriteLine("Необрабатываемое исключение. " + e.Message);
+                Console.WriteLine("Необрабатываемое исключение!\n" + e.Message);
             }
-            Console.Write("...");
-            Console.ReadKey();
 
+            WaitForUser();
             return amountOfChoices; // Если строка с выбором пуста, выбрать выход из меню
         }
 
@@ -76,8 +74,8 @@ namespace Restaurant.InterfaceClasses
                     case "3":
                         return;
                     default:
-                        Console.WriteLine("Некорректный выбор...");
-                        Console.ReadKey();
+                        Console.Write("Некорректный выбор.");
+                        WaitForUser();
                         break;
                 }
             }

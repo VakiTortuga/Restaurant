@@ -17,6 +17,10 @@ namespace Restaurant.FoodClasses
         protected bool foodIsBaked; // флаг готовности блюда
         protected bool foodIsEaten; // флаг съеденности блюда
 
+        public bool FoodIsCut { get => foodIsCut; }
+        public bool FoodIsBaked { get => foodIsBaked; }
+        public bool FoodIsEaten { get => foodIsEaten; }
+
         // значения по умолчанию
         private const string EMPTY_NAME = "Блюдо";
         private const int MIN_AMOUNT_OF_SLICES = 1;

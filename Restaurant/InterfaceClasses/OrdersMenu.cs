@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Restaurant.FoodClasses;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,5 +9,6 @@ namespace Restaurant.InterfaceClasses
 {
     internal class OrdersMenu
     {
+        private List<Food> orders = new List<Food>();
     }
 }

@@ -68,7 +68,7 @@ namespace Restaurant.InterfaceClasses
                 switch (choice)
                 {
                     case "1":
-                        foodMenu.ShowFoodMenu(this);
+                        foodMenu.ShowFoodMenu(ordersMenu);
                         break;
                     case "2":
                         ordersMenu.ShowOrdersMenu();
@@ -82,14 +82,5 @@ namespace Restaurant.InterfaceClasses
                 }
             }
         }
-
-
-        // добавляет блюдо в список заказов из списка меню по индексу
-        internal void MakeOrderByItem(Food foodItem)
-        {
-            ordersMenu.MakeOrderByItem(foodItem);
-        }
-
-        
     }
 }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Restaurant.UIClasses;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -18,10 +19,34 @@ namespace Restaurant.FoodClasses
     {
         private PizzaSize size; // размер пиццы (предопределяет ее вес)
 
+        // делегат, который будут слушать все пиццы
+        public static event Action? OnPineappleReminder;
+
         // конструктор
         public Pizza(string? name, PizzaSize size) : base(name, (short)size)
         {
             this.size = size;
+        }
+
+        public void Subscribe()
+        {
+            OnPineappleReminder -= AddPineapplesToName;
+            OnPineappleReminder += AddPineapplesToName;
+        }
+
+        public void Unsubscribe()
+        {
+            OnPineappleReminder -= AddPineapplesToName;
+        }
+
+        // Метод, который будет вызываться при событии
+        private void AddPineapplesToName()
+        {
+            // Добавляем ананасы к названию, если их еще нет
+            if (!name.Contains("ананас", StringComparison.OrdinalIgnoreCase))
+            {
+                name += " с ананасами";
+            }
         }
 
         public override void Deconstruct(out string name, out short weight)
@@ -36,7 +61,18 @@ namespace Restaurant.FoodClasses
         }
 
         // напомнить про ананасы
-        public static void RemindPineapples() => Console.WriteLine("Не забудь добавить ананасы!");
+        public static void RemindPineapples()
+        {
+            Console.WriteLine("Не забудь добавить ананасы!");
+
+            Console.WriteLine("Добавляем ананасы.");
+            for (int i = 0; i < 10; i++)
+            {
+                Thread.Sleep(150);
+                Console.Write('.');
+            }
+            OnPineappleReminder?.Invoke();
+        }
 
         // выпекать пиццу
         public override void Bake() => base.Bake();
@@ -45,7 +81,7 @@ namespace Restaurant.FoodClasses
         public override void Cut(byte slices) => base.Cut(slices);
         
         // сесть пиццу
-        public override void Eat() => base.Eat();
+        public override void Eat(byte pieces) => base.Eat(pieces);
 
         public override void PrintFoodShort() => base.PrintFoodShort();
 

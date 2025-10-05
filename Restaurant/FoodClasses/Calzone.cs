@@ -8,7 +8,7 @@ namespace Restaurant.FoodClasses
 {
     internal class Calzone : Food
     {
-        public Calzone(string? name, short weight) : base(name, weight) => slices = 1;
+        public Calzone(string? name, short weight) : base(name, weight) { }
 
         public override void Deconstruct(out string name, out short weight)
         {
@@ -22,7 +22,7 @@ namespace Restaurant.FoodClasses
         new public void Cut(byte slices) => base.Cut();
 
         // съесть кальцоне
-        new public void Eat() => base.Eat();
+        new public void Eat(byte pieces) => base.Eat(pieces);
 
         public override void PrintFoodShort() => base.PrintFoodShort();
 

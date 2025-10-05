@@ -1,4 +1,5 @@
 ﻿using Restaurant.InterfaceClasses;
+using Restaurant.UIClasses;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,18 +12,18 @@ namespace Restaurant.FoodClasses
     {
         private short weight; // вес в граммах
 
-        private const short EMPTY_WEIGHT = 100; // дефолтное значение веса
+        public const short MIN_WEIGHT = 100; // минимальное значение веса
+        public const short MAX_WEIGHT = 2000; // максимальное значение веса
 
         public short Weight // геттер простой, сеттер с проверкой и установкой дефолта при некорректном вводе
         {
             get => weight;
             set
             {
-                if (value <= 50 || value >= 3000)
+                if (value <= MIN_WEIGHT || value >= MAX_WEIGHT)
                 {
-                    weight = EMPTY_WEIGHT;
+                    weight = MIN_WEIGHT;
                     Console.WriteLine($"Введено некорректное значение веса - {value}.\nЗначение установлено на {weight}.");
-                    Kitchen.WaitForUser();
                 }
                 else weight = value;
             }

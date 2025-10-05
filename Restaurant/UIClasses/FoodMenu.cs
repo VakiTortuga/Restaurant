@@ -1,4 +1,5 @@
 ﻿using Restaurant.FoodClasses;
+using Restaurant.UIClasses;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -24,46 +25,43 @@ namespace Restaurant.InterfaceClasses
             menu.Add(new Pizza("Большая Песто", PizzaSize.Large));
             menu.Add(new Calzone("Кольцоне с грибами", 250));
             menu.Add(new Calzone("Кольцоне с яблоком", 200));
+            menu[0]++;
+            menu[2]--;
         }
 
         // вывод меню блюд, с возможностью сделать заказ, добавить блюдо и вернуться в главное меню
         public void ShowFoodMenu(in OrdersMenu ordersMenu)
         {
+            int? menuChoice;
+            int amountOfChoices = default;
+            bool needToRedrawMenu = true;
+
             while (true)
             {
-                int menuChoice, amountOfChoices;
+                if (needToRedrawMenu)
+                {
+                    Console.Clear();
+                    amountOfChoices = ShowOptionsFromFoodMenu(); // выводит доступный хавчик, записывает кол-вариантов в переменную
+                    needToRedrawMenu = false;
+                }
 
-                Console.Clear();
-                amountOfChoices = ShowOptionsFromFoodMenu(); // выводит доступный хавчик, записывает кол-вариантов в переменную
-                Console.Write("Ваш выбор (цифра 1-{0}): ", amountOfChoices);
-
+                Console.Write("\nВаш выбор (цифра 1-{0}): ", amountOfChoices);
                 string? choiceStr = Console.ReadLine(); // получаем строку с выбором
-                menuChoice = Kitchen.CheckChoiseMenu(choiceStr, amountOfChoices); // получаем целочисленный выбор
+                menuChoice = UserInteractions.CheckChoiceMenu(choiceStr, amountOfChoices); // получаем целочисленный выбор
+                if (menuChoice == null) continue;
 
-
-                if (menuChoice <= menu.Count) ordersMenu.MakeOrderByItem(menu[menuChoice - 1]); // если выбор не вышел за пределы списка меню
+                if (menuChoice <= menu.Count) ordersMenu.MakeOrderByItem(menu[(int)menuChoice - 1]); // если выбор не вышел за пределы списка меню
                 else if (menuChoice == amountOfChoices - 1) // создание опции
                 {
-                    try
-                    {
-                        CreateOptionForOrder(); // создание опции (не заказывая)
-                        continue; // показываем обновленное меню
-                    }
-                    catch (ArgumentException)
-                    {
-                        Console.Write("Некорректный формат ввода!\nСоздание опции меню отменено.");
-                    }
-                    catch (Exception e)
-                    {
-                        Console.Write("Необрабатываемое исключение.\nСоздание опции меню отменено.");
-                    }
-                    Kitchen.WaitForUser();
+                    CreateOptionForOrder(); // создание опции (не заказывая)
+                    needToRedrawMenu = true;
+                    continue; // показываем обновленное меню;
                 }
                 else if (menuChoice == amountOfChoices) return;
                 else
                 {
                     Console.Write("Некорректный выбор.");
-                    Kitchen.WaitForUser();
+                    UserInteractions.WaitForUser();
                 }
             }
         }
@@ -72,7 +70,7 @@ namespace Restaurant.InterfaceClasses
         private int ShowOptionsFromFoodMenu()
         {
             int i = 1;
-            Console.WriteLine("Создание заказа.\nМеню блюд:");
+            Console.WriteLine("Создание заказа.\n\nМеню блюд:");
             for (; i <= menu.Count; i++)
             {
                 Console.Write(i + ".");
@@ -88,36 +86,47 @@ namespace Restaurant.InterfaceClasses
         private void CreateOptionForOrder()
         {
             Console.Clear();
-            Console.WriteLine("Выберите тип блюда:");
+            Console.WriteLine("Добавление блюда в меню.");
+            Console.WriteLine("\nВыберите тип блюда:");
             Console.WriteLine("1.Пицца");
             Console.WriteLine("2.Кальцоне");
             Console.WriteLine("3.Отмена создания блюда");
-            Console.Write("Ваш выбор (1-3): ");
 
-            string? choice = Console.ReadLine();
-            if (choice == "3")
+            while (true)
             {
-                Console.WriteLine("Создание блюда было отменено.");
-                Kitchen.WaitForUser();
+                Console.Write("\nВаш выбор (1-3): ");
+                string? choice = Console.ReadLine();
+
+                Food newFood;
+                switch (choice)
+                {
+                    case "1":
+                        newFood = CreatePizza();
+                        break;
+                    case "2":
+                        newFood = CreateCalzone();
+                        break;
+                    case "3":
+                        Console.WriteLine("Создание блюда было отменено.");
+                        UserInteractions.WaitForUser();
+                        return;
+                    default:
+                        Console.WriteLine("Некорректный ввод");
+                        continue;
+                }
+
+                menu.Add(newFood);
+                Console.WriteLine("Блюдо успешно добавлено в меню!");
+                UserInteractions.WaitForUser();
                 return;
             }
-
-            Food newFood = choice switch
-            {
-                "1" => CreatePizza(),
-                "2" => CreateCalzone(),
-                _ => throw new ArgumentException("Некорректный выбор.")
-            };
-
-            menu.Add(newFood);
-            Console.Write("Блюдо успешно добавлено в меню!");
-            Kitchen.WaitForUser();
+            
         }
 
         // Создание пиццы
         private Pizza CreatePizza()
         {
-            Console.Write("Введите название пиццы: ");
+            Console.Write("\nВведите название пиццы: ");
             string? name = Console.ReadLine();
 
             PizzaSize size = SelectPizzaSize();
@@ -128,14 +137,12 @@ namespace Restaurant.InterfaceClasses
         // Создание кальцоне
         private Calzone CreateCalzone()
         {
-            Console.Write("Введите название кальцоне: ");
+            Console.Write("\nВведите название кальцоне: ");
             string? name = Console.ReadLine();
 
             short weight;
             Console.Write("Введите вес в граммах: ");
-            string? weightStr = Console.ReadLine();
-            if (weightStr != null) weight = short.Parse(weightStr); // лучше использовать TryParse
-            else weight = 0;
+            UserInteractions.ChooseAmount(out weight);
 
             return new Calzone(name, weight);
         }

@@ -1,12 +1,12 @@
 ﻿using Restaurant.FoodClasses;
-using Restaurant.UIClasses;
+using Restaurant.UIClasses.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Restaurant.InterfaceClasses
+namespace Restaurant.UIClasses.menu
 {
     internal class OrdersMenu
     {

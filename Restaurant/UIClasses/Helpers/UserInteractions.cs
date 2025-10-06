@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Restaurant.UIClasses
+namespace Restaurant.UIClasses.Helpers
 {
     internal static class UserInteractions
     {
@@ -47,7 +47,7 @@ namespace Restaurant.UIClasses
             Console.Write("\nВаш выбор (цифра 1-{0}): ", amountOfChoices);
             string? choiceStr = Console.ReadLine(); // получаем строку с выбором
 
-            return UserInteractions.CheckChoiceMenu(choiceStr, amountOfChoices);
+            return CheckChoiceMenu(choiceStr, amountOfChoices);
         }
 
         public static int? CheckChoiceMenu(string? choiceStr, int amountOfChoices)

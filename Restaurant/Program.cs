@@ -1,4 +1,4 @@
-﻿using Restaurant.InterfaceClasses;
+﻿using Restaurant.UIClasses.menu;
 using System;
 
 namespace Restaurant {

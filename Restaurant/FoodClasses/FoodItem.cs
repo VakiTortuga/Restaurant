@@ -1,5 +1,5 @@
-﻿using Restaurant.InterfaceClasses;
-using Restaurant.UIClasses;
+﻿using Restaurant.UIClasses;
+using Restaurant.UIClasses.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Linq;

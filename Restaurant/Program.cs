@@ -7,7 +7,7 @@ namespace Restaurant {
         public static void Main()
         {
             Kitchen kitchen1 = new Kitchen();
-            kitchen1.ShowMainKitchenMenu();
+            kitchen1.ShowKitchenMenu();
         }
     }
 }

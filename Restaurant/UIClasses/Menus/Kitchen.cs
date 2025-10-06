@@ -9,24 +9,52 @@ using System.Threading.Tasks;
 
 namespace Restaurant.UIClasses.menu
 {
+    /// <summary>
+    /// Класс кухни для управления заказами в ресторане
+    /// </summary>
     internal class Kitchen : IKitchen
     {
+        // Поля
+
+        /// <summary>
+        /// Меню блюд
+        /// </summary>
         private FoodMenu foodMenu;
+
+        /// <summary>
+        /// Меню заказов
+        /// </summary>
         private OrdersMenu ordersMenu;
 
+
+        // Конструкторы
+
+        /// <summary>
+        /// Конструктор кухни, создает меню блюд и меню заказов
+        /// </summary>
         public Kitchen()
         {
             foodMenu = new FoodMenu();
             ordersMenu = new OrdersMenu();
         }
 
-        // выводит меню кухни (добавление и просмотр заказов)
-        public void ShowMainKitchenMenu() 
+        // Методы
+
+        /// <summary>
+        /// Вывод меню кухни (добавление заказов и управление ими)
+        /// </summary>
+        public void ShowKitchenMenu() 
         {
-            bool needToRedraw = true;
+            /*
+             * Флаг, показывающий необходимость перерисовать меню
+             * после выхода из других методов, содержащих меню.
+             * На первой итерации необходимо вывести меню.
+             */
+            bool needToRedraw = true; 
+
             while (true)
             {
-                if (needToRedraw)
+                if (needToRedraw) // Выводим меню при необходимости
                 {
                     Console.Clear();
                     Console.WriteLine("Меню кухни:");
@@ -37,19 +65,22 @@ namespace Restaurant.UIClasses.menu
                 }
 
                 Console.Write("\nВаш выбор (цифра 1-3): ");
-                string? choice = Console.ReadLine();
+                string? choice = Console.ReadLine(); // Ввод пользователя
 
-                switch (choice)
+                switch (choice) // Обрабатываем ввод
                 {
                     case "1":
+                        // Открываем меню блюд (передаем меню заказов для возможности заказывать блюда)
                         foodMenu.ShowFoodMenu(ordersMenu);
-                        needToRedraw = true;
+                        needToRedraw = true; // перерисовываем меню после метода 
                         break;
                     case "2":
+                        // Открываем меню заказов
                         ordersMenu.ShowOrdersMenu();
-                        needToRedraw = true;
+                        needToRedraw = true; // перерисовываем меню после метода 
                         break;
                     case "3":
+                        // Выход из меню кухни
                         return;
                     default:
                         Console.WriteLine("Некорректный выбор.");

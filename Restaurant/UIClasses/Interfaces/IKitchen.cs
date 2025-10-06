@@ -6,8 +6,14 @@ using System.Threading.Tasks;
 
 namespace Restaurant.UIClasses.Interface
 {
+    /// <summary>
+    /// Интерфейс кухни
+    /// </summary>
     internal interface IKitchen
     {
-        void ShowMainKitchenMenu(); // выводит меню кухни (добавление и просмотр заказов)
+        /// <summary>
+        /// Вывод меню кухни (добавление и просмотр заказов)
+        /// </summary>
+        void ShowKitchenMenu();
     }
 }

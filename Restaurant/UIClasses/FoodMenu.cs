@@ -46,9 +46,7 @@ namespace Restaurant.InterfaceClasses
                     needToRedrawMenu = false;
                 }
 
-                Console.Write("\nВаш выбор (цифра 1-{0}): ", amountOfChoices);
-                string? choiceStr = Console.ReadLine(); // получаем строку с выбором
-                menuChoice = UserInteractions.CheckChoiceMenu(choiceStr, amountOfChoices); // получаем целочисленный выбор
+                menuChoice = UserInteractions.GetMenuChoice(amountOfChoices); // получаем выбор пользователя
                 if (menuChoice == null) continue;
 
                 if (menuChoice <= menu.Count) ordersMenu.MakeOrderByItem(menu[(int)menuChoice - 1]); // если выбор не вышел за пределы списка меню
@@ -142,7 +140,7 @@ namespace Restaurant.InterfaceClasses
             string? name = Console.ReadLine();
 
             short weight;
-            Console.Write("Введите вес в граммах: ");
+            Console.Write($"Введите вес в граммах ({FoodWeight.MIN_WEIGHT}-{FoodWeight.MAX_WEIGHT}): ");
             UserInteractions.ChooseAmount(out weight);
 
             return new Calzone(name, weight);

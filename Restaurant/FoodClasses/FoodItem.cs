@@ -106,10 +106,8 @@ namespace Restaurant.FoodClasses
         /// <remarks>При выходе имя и вес объекта всегда будут корректными.</remarks>
         protected FoodItem(string? name, short weight)
         {
-            if (name == null) this.name = DEFAULT_NAME;
+            if (name == null || name == string.Empty) this.name = DEFAULT_NAME;
             else this.name = name;
-            
-            if (name == string.Empty) this.name = DEFAULT_NAME;
 
             this.weight = new FoodWeight(weight);
             amountOfSlices = MIN_AMOUNT_OF_SLICES;

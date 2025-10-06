@@ -51,7 +51,7 @@ namespace Restaurant.FoodClasses
         // Константы
         
         /// <summary>
-        /// Название по умолчанию.
+        /// Название блюда по умолчанию.
         /// </summary>
         private const string DEFAULT_NAME = "Блюдо";
 
@@ -66,17 +66,17 @@ namespace Restaurant.FoodClasses
         public const int MAX_AMOUNT_OF_SLICES = 16;
 
         /// <summary>
-        /// Время одного тика готовки.
+        /// Время одного тика готовки в миллисекундах.
         /// </summary>
         const byte BAKE_TICK_MILLISECS = 220;
 
         /// <summary>
-        /// Время одного тика нарезки.
+        /// Время одного тика нарезки в миллисекундах.
         /// </summary>
         const byte CUT_TICK_MILLISECS = 150;
 
         /// <summary>
-        /// Время одного тика поедания.
+        /// Время одного тика поедания в миллисекундах.
         /// </summary>
         const byte EAT_TICK_MILLISECS = 180;
 

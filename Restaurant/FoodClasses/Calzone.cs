@@ -10,6 +10,11 @@ namespace Restaurant.FoodClasses
     {
         public Calzone(string? name, short weight) : base(name, weight) { }
 
+        //public override FoodItem CopyWithWeight(short newWeight)
+        //{
+        //    return new Calzone(this.name, newWeight);
+        //}
+
         public override void Deconstruct(out string name, out short weight)
         {
             base.Deconstruct(out name, out weight);

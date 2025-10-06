@@ -15,11 +15,14 @@ namespace Restaurant.InterfaceClasses
         // добавляет блюдо в список заказов из списка меню по индексу
         internal void MakeOrderByItem(FoodItem foodItem)
         {
+
             switch (foodItem)
             {
                 case Pizza pizza:
-                    var (pizzaName, size) = pizza;
-                    Pizza newPizza = new Pizza(pizzaName, size);
+                    string pizzaName;
+                    short weight;
+                    pizza.Deconstruct(out pizzaName, out weight);
+                    Pizza newPizza = new Pizza(pizzaName, weight);
                     newPizza.Subscribe();
                     orders.Add(newPizza);
                     break;
@@ -200,13 +203,19 @@ namespace Restaurant.InterfaceClasses
                 if (menuChoice == 1) order.Bake();   
                 else if (menuChoice == 2)
                 {
-                    if (order.IsBaked != true)
+                    if (order.IsBaked == false)
                     {
                         Console.WriteLine("Сначала нужно запечь блюдо.");
                         continue;
                     }
 
-                    Console.WriteLine("Введите кол-во кусочков для нарезки: ");
+                    if (order.IsCut == true)
+                    {
+                        Console.WriteLine("Блюдо уже нарезано.");
+                        continue;
+                    }
+
+                    Console.Write("Введите кол-во кусочков для нарезки: ");
                     byte slices;
                     UserInteractions.ChooseAmount(out slices);
 

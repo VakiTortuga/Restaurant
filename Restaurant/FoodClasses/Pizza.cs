@@ -9,11 +9,13 @@ namespace Restaurant.FoodClasses
 {
     enum PizzaSize
     {
-        Small = 300,
-        Medium = 500,
-        Large = 800,
-        ExtraLarge = 1000
+        Small,
+        Medium,
+        Large,
+        ExtraLarge
     }
+
+    
 
     internal class Pizza : FoodItem
     {
@@ -23,9 +25,34 @@ namespace Restaurant.FoodClasses
         public static event Action? OnPineappleReminder;
 
         // конструктор
-        public Pizza(string? name, PizzaSize size) : base(name, (short)size)
+        public Pizza(string? name, PizzaSize size) : base(name, PizzaSizeToWeight(size))
         {
             this.size = size;
+        }
+
+        public Pizza(string? name, short weight) : base(name, weight)
+        {
+            this.size = WeightToPizzaSize(base.weight.WeightInGramms);
+        }
+
+        public static short PizzaSizeToWeight(PizzaSize size)
+        {
+            switch (size)
+            {
+                case PizzaSize.Small: return 300;
+                case PizzaSize.Medium: return 500;
+                case PizzaSize.Large: return 800;
+                case PizzaSize.ExtraLarge: return 1000;
+                default: return 0;
+            }
+        }
+
+        public static PizzaSize WeightToPizzaSize(short weight)
+        {
+            if (weight < 400) return PizzaSize.Small;
+            if (weight < 600) return PizzaSize.Medium;
+            if (weight < 900) return PizzaSize.Large;
+            return PizzaSize.ExtraLarge;
         }
 
         public void Subscribe()

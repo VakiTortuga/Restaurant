@@ -25,8 +25,9 @@ namespace Restaurant.InterfaceClasses
             menu.Add(new Pizza("Большая Песто", PizzaSize.Large));
             menu.Add(new Calzone("Кольцоне с грибами", 250));
             menu.Add(new Calzone("Кольцоне с яблоком", 200));
-            menu[0]++;
-            menu[2]--;
+            
+            ++menu[0];
+            --menu[2];
         }
 
         // вывод меню блюд, с возможностью сделать заказ, добавить блюдо и вернуться в главное меню

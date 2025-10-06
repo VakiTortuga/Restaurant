@@ -19,21 +19,33 @@ namespace Restaurant.FoodClasses
 
     internal class Pizza : FoodItem
     {
-        private PizzaSize size; // размер пиццы (предопределяет ее вес)
+        // Поля
+
+        /// <summary>
+        /// Размер пиццы.
+        /// </summary>
+        /// <remarks>Размер предопределяет вес пиццы и наооборот.</remarks>
+        private PizzaSize size;
+
+        // Константы
+
+        /// <summary>
+        /// Название по умолчанию.
+        /// </summary>
+        private const string DEFAULT_PIZZA_NAME = "Пицца";
 
         // делегат, который будут слушать все пиццы
         public static event Action? OnPineappleReminder;
 
-        // конструктор
-        public Pizza(string? name, PizzaSize size) : base(name, PizzaSizeToWeight(size))
-        {
-            this.size = size;
-        }
+        // конструкторs
 
         public Pizza(string? name, short weight) : base(name, weight)
         {
+            if (name == null || name == string.Empty) this.name = DEFAULT_PIZZA_NAME;
             this.size = WeightToPizzaSize(base.weight.WeightInGramms);
         }
+
+        public Pizza(string? name, PizzaSize size) : this(name, PizzaSizeToWeight(size)) { }
 
         public static short PizzaSizeToWeight(PizzaSize size)
         {

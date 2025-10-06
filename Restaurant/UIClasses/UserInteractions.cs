@@ -40,6 +40,16 @@ namespace Restaurant.UIClasses
             Console.WriteLine();
         }
 
+        
+
+        public static int? GetMenuChoice(int amountOfChoices)
+        {
+            Console.Write("\nВаш выбор (цифра 1-{0}): ", amountOfChoices);
+            string? choiceStr = Console.ReadLine(); // получаем строку с выбором
+
+            return UserInteractions.CheckChoiceMenu(choiceStr, amountOfChoices);
+        }
+
         public static int? CheckChoiceMenu(string? choiceStr, int amountOfChoices)
         {
             int menuChoice;

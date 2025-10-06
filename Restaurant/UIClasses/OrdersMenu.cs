@@ -61,9 +61,7 @@ namespace Restaurant.InterfaceClasses
                     needToRedrawMenu = false;
                 }
 
-                Console.Write("\nВаш выбор (цифра 1-{0}): ", amountOfChoices);
-                string? choiceStr = Console.ReadLine(); // получаем строку с выбором
-                menuChoice = UserInteractions.CheckChoiceMenu(choiceStr, amountOfChoices);
+                menuChoice = UserInteractions.GetMenuChoice(amountOfChoices); // получаем выбор пользователя
                 if (menuChoice == null) continue;
 
                 // Обработка выбора
@@ -132,11 +130,8 @@ namespace Restaurant.InterfaceClasses
                     Console.WriteLine("3.Выйти в главное меню");
                     needToRedrawMenu= false;
                 }
-                
-                Console.Write("\nВаш выбор (1-{0}): ", amountOfChoices);
 
-                string? choiceStr = Console.ReadLine(); // получаем строку с выбором
-                menuChoice = UserInteractions.CheckChoiceMenu(choiceStr, amountOfChoices);
+                menuChoice = UserInteractions.GetMenuChoice(amountOfChoices); // получаем выбор пользователя
 
                 if (menuChoice == null) continue;
 
@@ -178,7 +173,6 @@ namespace Restaurant.InterfaceClasses
             bool needToRedraw = true;
 
             FoodItem order = orders[index];
-            string? choiceStr;
 
             while (true)
             {
@@ -194,10 +188,7 @@ namespace Restaurant.InterfaceClasses
                     Console.WriteLine("4.Выйти из меню");
                     needToRedraw = false;
                 }
-                
-                Console.Write("\nВаш выбор (1-{0}): ", amountOfChoices);
-                choiceStr = Console.ReadLine(); // получаем строку с выбором
-                menuChoice = UserInteractions.CheckChoiceMenu(choiceStr, amountOfChoices);
+                menuChoice = UserInteractions.GetMenuChoice(amountOfChoices); // получаем выбор пользователя
                 if (menuChoice == null) continue;
 
                 if (menuChoice == 1) order.Bake();   

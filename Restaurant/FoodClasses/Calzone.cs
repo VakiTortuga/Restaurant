@@ -8,12 +8,17 @@ namespace Restaurant.FoodClasses
 {
     internal class Calzone : FoodItem
     {
-        public Calzone(string? name, short weight) : base(name, weight) { }
+        // Константы
 
-        //public override FoodItem CopyWithWeight(short newWeight)
-        //{
-        //    return new Calzone(this.name, newWeight);
-        //}
+        /// <summary>
+        /// Название по умолчанию.
+        /// </summary>
+        private const string DEFAULT_CALZONE_NAME = "Кальцоне";
+
+        public Calzone(string? name, short weight) : base(name, weight)
+        {
+            if (name == null || name == string.Empty) this.name = DEFAULT_CALZONE_NAME;
+        }
 
         public override void Deconstruct(out string name, out short weight)
         {

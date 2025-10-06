@@ -10,10 +10,10 @@ namespace Restaurant.InterfaceClasses
 {
     internal class OrdersMenu
     {
-        private List<Food> orders = new List<Food>();
+        private List<FoodItem> orders = new List<FoodItem>();
 
         // добавляет блюдо в список заказов из списка меню по индексу
-        internal void MakeOrderByItem(Food foodItem)
+        internal void MakeOrderByItem(FoodItem foodItem)
         {
             switch (foodItem)
             {
@@ -174,7 +174,7 @@ namespace Restaurant.InterfaceClasses
             int amountOfChoices = 4;
             bool needToRedraw = true;
 
-            Food order = orders[index];
+            FoodItem order = orders[index];
             string? choiceStr;
 
             while (true)
@@ -200,7 +200,7 @@ namespace Restaurant.InterfaceClasses
                 if (menuChoice == 1) order.Bake();   
                 else if (menuChoice == 2)
                 {
-                    if (order.FoodIsBaked != true)
+                    if (order.IsBaked != true)
                     {
                         Console.WriteLine("Сначала нужно запечь блюдо.");
                         continue;
@@ -215,20 +215,20 @@ namespace Restaurant.InterfaceClasses
                 }
                 else if (menuChoice == 3)
                 {
-                    if (order.FoodIsBaked != true)
+                    if (order.IsBaked != true)
                     {
                         Console.WriteLine("Сначала нужно запечь блюдо.");
                         continue;
                     }
 
                     byte pieces;
-                    Console.Write($"Введите кол-во кусочков, которое хотите съесть (максимум {order.Slices}): ");
+                    Console.Write($"Введите кол-во кусочков, которое хотите съесть (максимум {order.AmountOfSlices}): ");
 
                     UserInteractions.ChooseAmount(out pieces);
 
                     order.Eat(pieces); // пытаемся съесть
 
-                    if (order.FoodIsEaten) // если получилось съесть
+                    if (order.IsEaten) // если получилось съесть
                     {
                         if (order is Pizza) ((Pizza)order).Unsubscribe();
                         orders.RemoveAt(index); // удаляем заказ

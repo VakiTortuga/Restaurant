@@ -11,7 +11,7 @@ namespace Restaurant.InterfaceClasses
 {
     internal class FoodMenu
     {
-        private List<Food> menu = new List<Food>();
+        private List<FoodItem> menu = new List<FoodItem>();
 
         public FoodMenu()
         {
@@ -97,7 +97,7 @@ namespace Restaurant.InterfaceClasses
                 Console.Write("\nВаш выбор (1-3): ");
                 string? choice = Console.ReadLine();
 
-                Food newFood;
+                FoodItem newFood;
                 switch (choice)
                 {
                     case "1":
@@ -120,7 +120,7 @@ namespace Restaurant.InterfaceClasses
                 UserInteractions.WaitForUser();
                 return;
             }
-            
+
         }
 
         // Создание пиццы

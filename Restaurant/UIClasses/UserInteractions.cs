@@ -14,6 +14,32 @@ namespace Restaurant.UIClasses
             Console.ReadKey();
         }
 
+        public static void ProgressBar(byte ticks, byte millisecsPerTick)
+        {
+            const byte MAX_TICKS = 30;
+            const byte MIN_MILLISECS_PER_TICK = 10;
+            const byte MAX_MILLISECS_PER_TICK = 200;
+
+            if (ticks > MAX_TICKS) ticks = MAX_TICKS;
+
+            if (millisecsPerTick < MIN_MILLISECS_PER_TICK) millisecsPerTick = MIN_MILLISECS_PER_TICK;
+            else if (millisecsPerTick > MAX_MILLISECS_PER_TICK) millisecsPerTick = MAX_MILLISECS_PER_TICK;
+
+            Console.Write('[');
+            var (left, top) = Console.GetCursorPosition();
+            Console.SetCursorPosition(left + ticks, top);
+            Console.Write(']');
+            Console.SetCursorPosition(left + 1, top);
+
+            for (int i = 0; i < ticks; i++)
+            {
+                Thread.Sleep(millisecsPerTick);
+                Console.Write('.');
+            }
+
+            Console.WriteLine();
+        }
+
         public static int? CheckChoiceMenu(string? choiceStr, int amountOfChoices)
         {
             int menuChoice;

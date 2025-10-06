@@ -8,17 +8,38 @@ using System.Threading.Tasks;
 
 namespace Restaurant.FoodClasses
 {
+    /// <summary>
+    /// Класс для хранения веса блюда
+    /// </summary>
     internal struct FoodWeight
     {
-        private short weight; // вес в граммах
+        // Поля
 
-        public const short MIN_WEIGHT = 100; // минимальное значение веса
-        public const short MAX_WEIGHT = 2000; // максимальное значение веса
+        /// <summary>
+        /// Значение веса в граммах
+        /// </summary>
+        private short weight;
 
-        public short Weight // геттер простой, сеттер с проверкой и установкой дефолта при некорректном вводе
+        // Константы
+
+        /// <summary>
+        /// Минимальный вес блюда.
+        /// </summary>
+        public const short MIN_WEIGHT = 100;
+        /// <summary>
+        /// Максимальный вес блюда.
+        /// </summary>
+        public const short MAX_WEIGHT = 2000;
+
+        // Свойства
+
+        /// <summary>
+        /// Свойство для установки значения веса
+        /// </summary>
+        public short WeightInGramms
         {
             get => weight;
-            set
+            set // сеттер с проверкой и установкой дефолта при некорректном значении
             {
                 if (value <= MIN_WEIGHT || value >= MAX_WEIGHT)
                 {
@@ -29,10 +50,18 @@ namespace Restaurant.FoodClasses
             }
         }
 
-        // конструктор с значением веса
-        public FoodWeight(short weight) => Weight = weight;
+        /// <summary>
+        /// Конструктор веса блюда
+        /// </summary>
+        /// <param name="weight">Вес блюда в граммах.</param>
+        /// <remarks>Значение веса в объекте всегда будет корректным.</remarks>
+        public FoodWeight(short weight) => WeightInGramms = weight;
 
-        // получение строкового представления веса в предопределенном формате
-        public override string ToString() => $"{Weight} грамм";
+
+        /// <summary>
+        /// Перевод веса в строковое представление.
+        /// </summary>
+        /// <returns>Строковое представление веса блюда.</returns>
+        public override string ToString() => $"{WeightInGramms} грамм";
     }
 }

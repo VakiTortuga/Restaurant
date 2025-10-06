@@ -15,7 +15,7 @@ namespace Restaurant.FoodClasses
         ExtraLarge = 1000
     }
 
-    internal class Pizza : Food
+    internal class Pizza : FoodItem
     {
         private PizzaSize size; // размер пиццы (предопределяет ее вес)
 

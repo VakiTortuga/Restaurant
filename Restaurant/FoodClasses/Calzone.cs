@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Restaurant.FoodClasses
 {
-    internal class Calzone : Food
+    internal class Calzone : FoodItem
     {
         public Calzone(string? name, short weight) : base(name, weight) { }
 

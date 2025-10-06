@@ -25,9 +25,9 @@ namespace Restaurant.UIClasses
             if (millisecsPerTick < MIN_MILLISECS_PER_TICK) millisecsPerTick = MIN_MILLISECS_PER_TICK;
             else if (millisecsPerTick > MAX_MILLISECS_PER_TICK) millisecsPerTick = MAX_MILLISECS_PER_TICK;
 
-            Console.Write('[');
             var (left, top) = Console.GetCursorPosition();
-            Console.SetCursorPosition(left + ticks, top);
+            Console.Write('[');
+            Console.SetCursorPosition(left + ticks + 1, top);
             Console.Write(']');
             Console.SetCursorPosition(left + 1, top);
 

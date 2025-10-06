@@ -65,6 +65,21 @@ namespace Restaurant.FoodClasses
         /// </summary>
         public const int MAX_AMOUNT_OF_SLICES = 16;
 
+        /// <summary>
+        /// Время одного тика готовки.
+        /// </summary>
+        const byte BAKE_TICK_MILLISECS = 220;
+
+        /// <summary>
+        /// Время одного тика нарезки.
+        /// </summary>
+        const byte CUT_TICK_MILLISECS = 150;
+
+        /// <summary>
+        /// Время одного тика поедания.
+        /// </summary>
+        const byte EAT_TICK_MILLISECS = 180;
+
 
         // Свойства
 
@@ -116,7 +131,11 @@ namespace Restaurant.FoodClasses
             short newWeight = (short)(food.weight.WeightInGramms - 50);
             if (newWeight < FoodWeight.MIN_WEIGHT) newWeight = FoodWeight.MIN_WEIGHT;
 
-            return new FoodItem(food.name, newWeight);
+            FoodItem newFood;
+            if (food is Pizza) newFood = new Pizza(food.name, newWeight);
+            else if (food is Calzone) newFood = new Calzone(food.name, newWeight);
+            else newFood = new FoodItem(food.name, newWeight);
+            return newFood;
         }
 
         /// <summary>
@@ -129,10 +148,12 @@ namespace Restaurant.FoodClasses
             short newWeight = (short)(food.weight.WeightInGramms + 50);
             if (newWeight > FoodWeight.MAX_WEIGHT) newWeight = FoodWeight.MAX_WEIGHT;
 
-            return new FoodItem(food.name, newWeight);
+            FoodItem newFood;
+            if (food is Pizza) newFood = new Pizza(food.name, newWeight);
+            else if (food is Calzone) newFood = new Calzone(food.name, newWeight);
+            else newFood = new FoodItem(food.name, newWeight);
+            return newFood;
         }
-
-        // Методы
 
         /// <summary>
         /// Деконструктор блюда.
@@ -150,9 +171,9 @@ namespace Restaurant.FoodClasses
         /// </summary>
         public virtual void Bake()
         {
-            byte TICKS_BAKE = 10;
-            byte TICK_MILLISECS = 200;
-
+            // расчет времени готовки от параметров пиццы
+            byte ticksBake = (byte)(5 + this.weight.WeightInGramms / 100); 
+            
             if (isBaked == true)
             {
                 Console.WriteLine($"\"{name}\" уже готово.");
@@ -160,64 +181,110 @@ namespace Restaurant.FoodClasses
             }
 
             Console.WriteLine($"\"{name}\" печется.");
-            UserInteractions.ProgressBar(TICKS_BAKE, TICK_MILLISECS);
-            Console.WriteLine($"\"{name}\" запечено! ");
-
+            UserInteractions.ProgressBar(ticksBake, BAKE_TICK_MILLISECS);
             isBaked = true;
+
+            Console.WriteLine($"\"{name}\" запечено! ");
         }
 
-        // нарезать блюдо
-        public virtual void Cut(byte slices = 2)
+        /// <summary>
+        /// Нарезать блюдо на кусочки.
+        /// </summary>
+        /// <param name="slicesToCut">Запрашиваемое кол-во кусочковю</param>
+        public virtual void Cut(byte slicesToCut = 2)
         {
-            if (isBaked != true)
+            byte ticksCut = slicesToCut; // время нарезки пропорционально кол-ву кусочков
+
+            if (isBaked == false)
+            {
                 Console.WriteLine($"\"{name}\" еще не испечено.");
-            else if (isCut == true)
+                return;
+            }
+                
+            if (isCut == true)
+            {
                 Console.WriteLine($"\"{name}\" уже нарезано.");
-            else if (slices > this.amountOfSlices && slices <= MAX_AMOUNT_OF_SLICES)
+                return;
+            }
+            
+            // проверяем запрашиваемое кол-во кусочков на соответствие интервалу корректных значений
+            if (slicesToCut > amountOfSlices && slicesToCut <= MAX_AMOUNT_OF_SLICES)
             {
+                Console.WriteLine($"Нарезаем \"{name}\".");
+                UserInteractions.ProgressBar(ticksCut, CUT_TICK_MILLISECS);
+                
+                amountOfSlices = slicesToCut;
                 isCut = true;
-                this.amountOfSlices = slices;
-                Console.WriteLine($"\"{name}\" нарезано на {this.amountOfSlices} кусочка(ов)!");
+
+                Console.WriteLine($"\"{name}\" нарезано на {amountOfSlices} кусочка(ов)!");
             }
-            else
-                Console.WriteLine($"\"{name}\" можно нарезать на {this.amountOfSlices + 1}-{MAX_AMOUNT_OF_SLICES} кусочков.");
+            else Console.WriteLine($"\"{name}\" можно нарезать на {amountOfSlices + 1}-{MAX_AMOUNT_OF_SLICES} кусочков.");
         }
 
-        // съесть блюдо
-        public virtual void Eat(byte pieces = 1)
+        /// <summary>
+        /// Съесть некоторое кол-во кусочков блюда.
+        /// </summary>
+        /// <param name="piecesToEat"></param>
+        public virtual void Eat(byte piecesToEat = 1)
         {
-            if (isBaked != true) Console.WriteLine($"\"{name}\" еще не испечено.");
-            else if (isEaten == true) Console.WriteLine($"\"{name}\" уже съедено.");
+            byte ticksEat = piecesToEat; // время поедания пропорционально кол-ву кусочков
+
+            if (isBaked == false)
+            {
+                Console.WriteLine($"\"{name}\" еще не испечено.");
+                return;
+            }
+                
+            if (isEaten == true)
+            {
+                Console.WriteLine($"\"{name}\" уже съедено.");
+                return;
+            }
+                
+            if (piecesToEat < 0)
+            {
+                Console.WriteLine("Можно съесть только положительное количество кусочков!");
+                return;
+            }
+
+            if (piecesToEat > this.amountOfSlices)
+            {
+                Console.WriteLine($"От \"{name}\" осталось только {this.amountOfSlices} кусочка(ов)!");
+                return;
+            }
+            
+            // обрабатываем поедание кусочков
+            if (piecesToEat == 0) Console.WriteLine($"Вы передумали есть \"{name}\" :(");
             else
             {
-                if (pieces < 0)
-                {
-                    Console.WriteLine("Можно съесть только положительное количество кусочков!");
+                Console.WriteLine($"Часть \"{name}\" таинственно исчезает...");
+                UserInteractions.ProgressBar(ticksEat, EAT_TICK_MILLISECS);
 
-                }
-                else if (pieces > this.amountOfSlices)
-                {
-                    Console.WriteLine($"От \"{name}\" осталось только {this.amountOfSlices} кусочка(ов)!");
-                }
-                else if (pieces == this.amountOfSlices)
-                {
-                    this.amountOfSlices = 0;
-                    isEaten = true;
-                    Console.WriteLine($"\"{name}\" съедено! ");
-                }
-                else
-                {
-                    this.amountOfSlices -= pieces;
-                    Console.WriteLine($"Вы съели {pieces} кусочка(ов), осталось {this.amountOfSlices}.");
-                }
+                this.amountOfSlices -= piecesToEat;
+            }
+
+            // информируем о результате
+            Console.WriteLine($"Вы съели {piecesToEat} кусочка(ов), осталось {this.amountOfSlices}.");
+
+            // проверяем съеденность пиццы
+            if (this.amountOfSlices == 0)
+            {
+                isEaten = true;
+                Console.WriteLine($"\"{name}\" съедено! ");
             }
         }
 
+        /// <summary>
+        /// Выводит краткое описание блюда.
+        /// </summary>
         public virtual void PrintFoodShort()
         {
-            Console.WriteLine($"\"{name}\". Вес - {weight.ToString()}.");
+            Console.WriteLine($"\"{name}\". Вес - " + weight.ToString());
         }
 
+        /// <summary>
+        /// Выводит дополнительную информацию к краткому описанию блюда.
+        /// </summary>
         public virtual void PrintFoodStatus()
         {
             if (isCut) Console.WriteLine($"Кол-во кусочков - {amountOfSlices}.");
@@ -226,6 +293,9 @@ namespace Restaurant.FoodClasses
             Console.WriteLine("Блюдо {0}съедено.", isEaten ? "" : "не ");
         }
 
+        /// <summary>
+        /// Выводит подробное описание блюда.
+        /// </summary>
         public virtual void PrintFoodFull()
         {
             PrintFoodShort();

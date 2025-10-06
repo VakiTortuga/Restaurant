@@ -1,5 +1,4 @@
-﻿using Restaurant.InterfaceClasses;
-using Restaurant.UIClasses;
+﻿using Restaurant.UIClasses;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -50,6 +49,9 @@ namespace Restaurant.FoodClasses
             }
         }
 
+
+        // Конструкторы
+
         /// <summary>
         /// Конструктор веса блюда
         /// </summary>
@@ -57,6 +59,8 @@ namespace Restaurant.FoodClasses
         /// <remarks>Значение веса в объекте всегда будет корректным.</remarks>
         public FoodWeight(short weight) => WeightInGramms = weight;
 
+
+        // Методы
 
         /// <summary>
         /// Перевод веса в строковое представление.

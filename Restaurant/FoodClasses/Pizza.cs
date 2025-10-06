@@ -136,7 +136,7 @@ namespace Restaurant.FoodClasses
         /// pizza.Subscribe(); // Теперь пицца будет реагировать на RemindPineapples()
         /// </example>
         /// </remarks>
-        public void Subscribe()
+        public void SubscribeToPineapples()
         {
             OnPineappleReminder -= AddPineapplesToName; // Отписываем пиццу во избежание двойной подписки
             OnPineappleReminder += AddPineapplesToName; // Подписываем пиццу на событие
@@ -165,7 +165,7 @@ namespace Restaurant.FoodClasses
         /// <summary>
         /// Добавление ананасов к подписанным пиццам
         /// </summary>
-        public static void RemindPineapples()
+        public static void RemindOfPineapples()
         {
             const byte minTicks = 4; // минимальное кол-во тиков добавления ананасов
 

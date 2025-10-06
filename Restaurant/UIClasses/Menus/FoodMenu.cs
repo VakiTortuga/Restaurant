@@ -49,7 +49,7 @@ namespace Restaurant.UIClasses.menu
                 menuChoice = UserInteractions.GetMenuChoice(amountOfChoices); // получаем выбор пользователя
                 if (menuChoice == null) continue;
 
-                if (menuChoice <= menu.Count) ordersMenu.MakeOrderByItem(menu[(int)menuChoice - 1]); // если выбор не вышел за пределы списка меню
+                if (menuChoice <= menu.Count) ordersMenu.MakeOrder(menu[(int)menuChoice - 1]); // если выбор не вышел за пределы списка меню
                 else if (menuChoice == amountOfChoices - 1) // создание опции
                 {
                     CreateOptionForOrder(); // создание опции (не заказывая)
